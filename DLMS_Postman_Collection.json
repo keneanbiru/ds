@@ -187,27 +187,7 @@
 			"name": "Protected Routes",
 			"item": [
 				{
-					"name": "Get Shipments - No Token",
-					"request": {
-						"method": "GET",
-						"header": [],
-						"url": {
-							"raw": "{{base_url}}/api/v1/shipments",
-							"host": [
-								"{{base_url}}"
-							],
-							"path": [
-								"api",
-								"v1",
-								"shipments"
-							]
-						},
-						"description": "Test protected route without token (should return 401)"
-					},
-					"response": []
-				},
-				{
-					"name": "Get Shipments - With Token",
+					"name": "Get All Shipments",
 					"request": {
 						"auth": {
 							"type": "bearer",
@@ -232,25 +212,34 @@
 								"shipments"
 							]
 						},
-						"description": "Test protected route with valid token (will return 503 since service not built yet)"
+						"description": "Get all shipments for the authenticated user"
 					},
 					"response": []
 				},
 				{
-					"name": "Get Shipments - Invalid Token",
+					"name": "Create Shipment",
 					"request": {
 						"auth": {
 							"type": "bearer",
 							"bearer": [
 								{
 									"key": "token",
-									"value": "invalid-token-here",
+									"value": "{{token}}",
 									"type": "string"
 								}
 							]
 						},
-						"method": "GET",
-						"header": [],
+						"method": "POST",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"origin\": \"Addis Ababa\",\n    \"destination\": \"Dire Dawa\",\n    \"weight_kg\": 25.5,\n    \"status\": \"pending\"\n}"
+						},
 						"url": {
 							"raw": "{{base_url}}/api/v1/shipments",
 							"host": [
@@ -262,7 +251,127 @@
 								"shipments"
 							]
 						},
-						"description": "Test protected route with invalid token (should return 401)"
+						"description": "Create a new shipment"
+					},
+					"response": []
+				},
+				{
+					"name": "Get Shipment by ID",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "GET",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/shipments/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shipments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "your-shipment-uuid-here"
+								}
+							]
+						},
+						"description": "Get details of a specific shipment"
+					},
+					"response": []
+				},
+				{
+					"name": "Update Shipment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "PUT",
+						"header": [
+							{
+								"key": "Content-Type",
+								"value": "application/json"
+							}
+						],
+						"body": {
+							"mode": "raw",
+							"raw": "{\n    \"status\": \"in_transit\",\n    \"weight_kg\": 26.0\n}"
+						},
+						"url": {
+							"raw": "{{base_url}}/api/v1/shipments/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shipments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "your-shipment-uuid-here"
+								}
+							]
+						},
+						"description": "Update an existing shipment"
+					},
+					"response": []
+				},
+				{
+					"name": "Delete Shipment",
+					"request": {
+						"auth": {
+							"type": "bearer",
+							"bearer": [
+								{
+									"key": "token",
+									"value": "{{token}}",
+									"type": "string"
+								}
+							]
+						},
+						"method": "DELETE",
+						"header": [],
+						"url": {
+							"raw": "{{base_url}}/api/v1/shipments/:id",
+							"host": [
+								"{{base_url}}"
+							],
+							"path": [
+								"api",
+								"v1",
+								"shipments",
+								":id"
+							],
+							"variable": [
+								{
+									"key": "id",
+									"value": "your-shipment-uuid-here"
+								}
+							]
+						},
+						"description": "Delete a shipment record"
 					},
 					"response": []
 				}

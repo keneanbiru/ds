@@ -1,8 +1,9 @@
-require('dotenv').config();
+const path = require('path');
+require('dotenv').config({ path: path.join(__dirname, '../.env') });
 const app = require('./app');
 const pool = require('./config/database');
 
-const PORT = process.env.PORT || 3002;
+const PORT = process.env.SHIPMENT_SERVICE_PORT || 3002;
 
 // Initialize database connection
 async function initializeDatabase() {
